@@ -18,6 +18,7 @@ namespace shrimp.input
     readonly string moveLeftInputName = "MoveLeft";
     readonly string moveRightAnimParamName = "MoveRight";
     readonly string moveLeftAnimParamName = "MoveLeft";
+    readonly string moveJoystickAxisName = "MoveJoystick";
 
     bool grounded = true;
     bool jumpTriggered = false;
@@ -27,8 +28,23 @@ namespace shrimp.input
     void Update()
     {
       jumpTriggered = Input.GetButton(jumpInputName);
-      moveLeftTriggered = Input.GetButton(moveLeftInputName);
-      moveRightTriggered = Input.GetButton(moveRightInputName);
+
+      var moveJoystick = Input.GetAxis(moveJoystickAxisName);
+      if(moveJoystick == 0)
+      {
+        moveLeftTriggered = Input.GetButton(moveLeftInputName);
+        moveRightTriggered = Input.GetButton(moveRightInputName);
+      }
+      else if(moveJoystick > 0)
+      {
+        moveRightTriggered = true;
+        moveLeftTriggered = false;
+      }
+      else if(moveJoystick < 0)
+      {
+        moveLeftTriggered = true;
+        moveRightTriggered = false;
+      }
     }
 
     void FixedUpdate()
