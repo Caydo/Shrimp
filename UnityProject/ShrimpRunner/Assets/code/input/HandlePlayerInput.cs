@@ -8,11 +8,10 @@ namespace shrimp.input
     [SerializeField] Animator playerAnimator = null;
     [SerializeField] Rigidbody2D playerRigidBody = null;
     [SerializeField] SpriteRenderer playerSprite = null;
-    [SerializeField] float maxHorizontalSpeed = 10;
-    [SerializeField] float horizontalSpeed = 5;
-    [SerializeField] float verticalSpeed = 5;
+    [SerializeField] float maxHorizontalSpeed = 5;
+    [SerializeField] float horizontalSpeed = 3;
+    [SerializeField] float verticalSpeed = 3;
 
-    bool grounded = true;
     readonly string jumpInputName = "Jump";
     readonly string jumpAnimParamName = "Jumping";
     readonly string moveRightInputName = "MoveRight";
@@ -20,9 +19,13 @@ namespace shrimp.input
     readonly string moveRightAnimParamName = "MoveRight";
     readonly string moveLeftAnimParamName = "MoveLeft";
 
+    bool grounded = true;
     bool jumpTriggered = false;
     bool moveLeftTriggered = false;
     bool moveRightTriggered = false;
+    
+    // stops continual force so we don't bounce off of corners of colliders
+    bool disallowMovement = false;
 
     void Update()
     {
@@ -57,40 +60,42 @@ namespace shrimp.input
       }
     }
 
-    // stops continual force so we don't bounce off of corners of colliders
-    bool disallowMovement = false;
-
     void OnCollisionEnter2D(Collision2D collision)
     {
       var platform = collision.gameObject.GetComponent<Platform>();
       if(platform != null)
       {
-        var contactSide = platform.GetContactSide(collision.contacts[0].point);
+        handlePlatformCollision(collision, platform);
+      }
+    }
 
-        // assume we aren't jumping anymore if:
-        // we've hit the top
-        // we've hit top right and we're pointed left
-        // we've hit top left and we're pointed right
-        if(contactSide == Platform.ContactSide.Top ||
-          (contactSide == Platform.ContactSide.TopRightCorner && playerSprite.flipX) ||
-          (contactSide == Platform.ContactSide.TopLeftCorner && !playerSprite.flipX))
+    void handlePlatformCollision(Collision2D collision, Platform platform)
+    {
+      var contactSide = platform.GetContactSide(collision.contacts[0].point);
+
+      // assume we aren't jumping anymore if:
+      // we've hit the top
+      // we've hit top right and we're pointed left
+      // we've hit top left and we're pointed right
+      if(contactSide == Platform.ContactSide.Top ||
+        (contactSide == Platform.ContactSide.TopRightCorner && playerSprite.flipX) ||
+        (contactSide == Platform.ContactSide.TopLeftCorner && !playerSprite.flipX))
+      {
+        //disallowMovement = false;
+        grounded = true;
+        playerAnimator.SetBool(jumpAnimParamName, false);
+      }
+      // we hit a platform on the left or right and we're jumping, bump the player back some to avoid getting stuck and don't
+      // allow for continual force so we actually drop
+      else if((contactSide == Platform.ContactSide.Left || contactSide == Platform.ContactSide.Right) &&
+               !grounded)
+      {
+        if(platform.Type != Platform.PlatformType.Wall)
         {
-          disallowMovement = false;
-          grounded = true;
-          playerAnimator.SetBool(jumpAnimParamName, false);
-        }
-        // we hit a platform on the left or right and we're jumping, bump the player back some to avoid getting stuck and don't
-        // allow for continual force so we actually drop
-        else if((contactSide == Platform.ContactSide.Left || contactSide == Platform.ContactSide.Right) &&
-                 !grounded)
-        {
-          if(platform.Type != Platform.PlatformType.Wall)
-          {
-            var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
-            grounded = false;
-            disallowMovement = true;
-            playerRigidBody.AddForce(vectorToUse * 3);
-          }
+          var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
+          grounded = false;
+          //disallowMovement = true;
+          playerRigidBody.AddForce(vectorToUse * 3);
         }
       }
     }

@@ -68,7 +68,7 @@ namespace shrimp.platform
       {
         contactSide = ContactSide.TopRightCorner;
       }
-      else if(contact.x >= leftSide && contact.y >= topSide)
+      else if(contact.x <= leftSide && contact.y >= topSide)
       {
         contactSide = ContactSide.TopLeftCorner;
       }
