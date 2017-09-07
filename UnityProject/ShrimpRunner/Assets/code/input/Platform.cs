@@ -19,11 +19,15 @@ namespace shrimp.platform
       Bottom,
       Left,
       Right,
-      None
+      Corner,
+      TopRightCorner,
+      TopLeftCorner
     }
 
     float leftSide;
     float rightSide;
+    float topSide;
+    float bottomSide;
     Vector2 center;
 
     void Start()
@@ -36,27 +40,37 @@ namespace shrimp.platform
 
       leftSide = (center.x - halfWidth);
       rightSide = (center.x + halfWidth);
+      topSide = (center.y + halfHeight);
+      bottomSide = (center.y - halfHeight);
     }
 
     public ContactSide GetContactSide(Vector2 contact)
     {
-      ContactSide contactSide = ContactSide.None;
+      ContactSide contactSide = ContactSide.Corner;
 
-      if(contact.x > leftSide && contact.x < rightSide && contact.y > center.y)
+      if(contact.x > leftSide && contact.x < rightSide && contact.y >= topSide)
       {
         contactSide = ContactSide.Top;
       }
-      else if(contact.x > leftSide && contact.x < rightSide && contact.y < center.y)
+      else if(contact.x > leftSide && contact.x < rightSide && contact.y <= bottomSide)
       {
         contactSide = ContactSide.Bottom;
       }
-      else if(contact.x >= leftSide)
+      else if(contact.x >= leftSide && contact.y < topSide && contact.y > bottomSide)
       {
         contactSide = ContactSide.Left;
       }
-      else if(contact.x <= rightSide)
+      else if(contact.x <= rightSide && contact.y < topSide && contact.y > bottomSide)
       {
         contactSide = ContactSide.Right;
+      }
+      else if(contact.x >= rightSide && contact.y >= topSide)
+      {
+        contactSide = ContactSide.TopRightCorner;
+      }
+      else if(contact.x >= leftSide && contact.y >= topSide)
+      {
+        contactSide = ContactSide.TopLeftCorner;
       }
 
       return contactSide;

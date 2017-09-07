@@ -57,27 +57,38 @@ namespace shrimp.input
       }
     }
 
+    // stops continual force so we don't bounce off of corners of colliders
     bool disallowMovement = false;
+
     void OnCollisionEnter2D(Collision2D collision)
     {
       var platform = collision.gameObject.GetComponent<Platform>();
       if(platform != null)
       {
         var contactSide = platform.GetContactSide(collision.contacts[0].point);
-        if(contactSide == Platform.ContactSide.Top)
+
+        // assume we aren't jumping anymore if:
+        // we've hit the top
+        // we've hit top right and we're pointed left
+        // we've hit top left and we're pointed right
+        if(contactSide == Platform.ContactSide.Top ||
+          (contactSide == Platform.ContactSide.TopRightCorner && playerSprite.flipX) ||
+          (contactSide == Platform.ContactSide.TopLeftCorner && !playerSprite.flipX))
         {
           disallowMovement = false;
           grounded = true;
           playerAnimator.SetBool(jumpAnimParamName, false);
         }
-        else if(contactSide != Platform.ContactSide.Bottom && !grounded)
+        // we hit a platform on the left or right and we're jumping, bump the player back some to avoid getting stuck and don't
+        // allow for continual force so we actually drop
+        else if((contactSide == Platform.ContactSide.Left || contactSide == Platform.ContactSide.Right) &&
+                 !grounded)
         {
           if(platform.Type != Platform.PlatformType.Wall)
           {
             var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
             grounded = false;
             disallowMovement = true;
-            playerRigidBody.velocity = Vector2.zero;
             playerRigidBody.AddForce(vectorToUse * 3);
           }
         }
