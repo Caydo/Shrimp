@@ -30,6 +30,8 @@ namespace shrimp.platform
     {
       var bounds = GetComponent<BoxCollider2D>().bounds;
       var halfWidth = (bounds.size.x / 2);
+      var halfHeight = (bounds.size.y / 2);
+
       center = bounds.center;
 
       leftSide = (center.x - halfWidth);
@@ -39,6 +41,7 @@ namespace shrimp.platform
     public ContactSide GetContactSide(Vector2 contact)
     {
       ContactSide contactSide = ContactSide.None;
+
       if(contact.x > leftSide && contact.x < rightSide && contact.y > center.y)
       {
         contactSide = ContactSide.Top;

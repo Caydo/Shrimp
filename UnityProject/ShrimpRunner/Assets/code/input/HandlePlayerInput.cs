@@ -44,20 +44,20 @@ namespace shrimp.input
         playerRigidBody.velocity = Vector2.zero;
       }
 
-      if(!stop)
+      if(!disallowMovement)
       {
         checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
         checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
       }
 
-      if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed && !stop)
+      if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed && !disallowMovement)
       {
         var topSpeedVelocity = playerRigidBody.velocity.normalized * horizontalSpeed;
         playerRigidBody.velocity = new Vector2(topSpeedVelocity.x, playerRigidBody.velocity.y);
       }
     }
 
-    bool stop = false;
+    bool disallowMovement = false;
     void OnCollisionEnter2D(Collision2D collision)
     {
       var platform = collision.gameObject.GetComponent<Platform>();
@@ -66,7 +66,7 @@ namespace shrimp.input
         var contactSide = platform.GetContactSide(collision.contacts[0].point);
         if(contactSide == Platform.ContactSide.Top)
         {
-          stop = false;
+          disallowMovement = false;
           grounded = true;
           playerAnimator.SetBool(jumpAnimParamName, false);
         }
@@ -76,9 +76,9 @@ namespace shrimp.input
           {
             var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
             grounded = false;
-            stop = true;
+            disallowMovement = true;
             playerRigidBody.velocity = Vector2.zero;
-            playerRigidBody.AddForce(vectorToUse * 1);
+            playerRigidBody.AddForce(vectorToUse * 3);
           }
         }
       }
