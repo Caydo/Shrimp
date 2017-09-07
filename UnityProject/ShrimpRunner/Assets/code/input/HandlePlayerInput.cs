@@ -28,23 +28,9 @@ namespace shrimp.input
     void Update()
     {
       jumpTriggered = Input.GetButton(jumpInputName);
-
       var moveJoystick = Input.GetAxis(moveJoystickAxisName);
-      if(moveJoystick == 0)
-      {
-        moveLeftTriggered = Input.GetButton(moveLeftInputName);
-        moveRightTriggered = Input.GetButton(moveRightInputName);
-      }
-      else if(moveJoystick > 0)
-      {
-        moveRightTriggered = true;
-        moveLeftTriggered = false;
-      }
-      else if(moveJoystick < 0)
-      {
-        moveLeftTriggered = true;
-        moveRightTriggered = false;
-      }
+      moveLeftTriggered = Input.GetButton(moveLeftInputName) || moveJoystick < 0;
+      moveRightTriggered = Input.GetButton(moveRightInputName) || moveJoystick > 0;
     }
 
     void FixedUpdate()

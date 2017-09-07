@@ -80,8 +80,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\code\characterSelect\SelectedCharacterColor.cs" />
+    <Compile Include="Assets\code\characterSelect\SelectedCharacterData.cs" />
+    <Compile Include="Assets\code\characterSelect\SetPlayerSpriteFromCharacterSelected.cs" />
+    <Compile Include="Assets\code\input\HandleControllerMenuInput.cs" />
     <Compile Include="Assets\code\input\HandlePlayerInput.cs" />
     <Compile Include="Assets\code\input\Platform.cs" />
+    <Compile Include="Assets\code\characterSelect\SetCharacterOnSelect.cs" />
+    <Compile Include="Assets\code\LoadSceneOnSelect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
