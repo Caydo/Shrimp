@@ -23,9 +23,6 @@ namespace shrimp.input
     bool jumpTriggered = false;
     bool moveLeftTriggered = false;
     bool moveRightTriggered = false;
-    
-    // stops continual force so we don't bounce off of corners of colliders
-    bool disallowMovement = false;
 
     void Update()
     {
@@ -47,13 +44,10 @@ namespace shrimp.input
         playerRigidBody.velocity = Vector2.zero;
       }
 
-      if(!disallowMovement)
-      {
-        checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
-        checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
-      }
+      checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
+      checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
 
-      if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed && !disallowMovement)
+      if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed)
       {
         var topSpeedVelocity = playerRigidBody.velocity.normalized * horizontalSpeed;
         playerRigidBody.velocity = new Vector2(topSpeedVelocity.x, playerRigidBody.velocity.y);
@@ -81,22 +75,18 @@ namespace shrimp.input
         (contactSide == Platform.ContactSide.TopRightCorner && playerSprite.flipX) ||
         (contactSide == Platform.ContactSide.TopLeftCorner && !playerSprite.flipX))
       {
-        //disallowMovement = false;
         grounded = true;
         playerAnimator.SetBool(jumpAnimParamName, false);
       }
       // we hit a platform on the left or right and we're jumping, bump the player back some to avoid getting stuck and don't
       // allow for continual force so we actually drop
-      else if((contactSide == Platform.ContactSide.Left || contactSide == Platform.ContactSide.Right) &&
+      else if(platform.Type != Platform.PlatformType.Wall &&
+              (contactSide == Platform.ContactSide.Left || contactSide == Platform.ContactSide.Right) &&
                !grounded)
       {
-        if(platform.Type != Platform.PlatformType.Wall)
-        {
-          var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
-          grounded = false;
-          //disallowMovement = true;
-          playerRigidBody.AddForce(vectorToUse * 3);
-        }
+        var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
+        grounded = false;
+        playerRigidBody.AddForce(vectorToUse * 3);
       }
     }
 
