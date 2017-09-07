@@ -82,7 +82,6 @@
   <ItemGroup>
     <Compile Include="Assets\code\input\HandlePlayerInput.cs" />
     <Compile Include="Assets\code\input\Platform.cs" />
-    <Compile Include="Assets\code\input\PlatformCollider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

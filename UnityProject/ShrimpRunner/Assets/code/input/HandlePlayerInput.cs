@@ -44,36 +44,42 @@ namespace shrimp.input
         playerRigidBody.velocity = Vector2.zero;
       }
 
-      checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
-      checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
+      if(!stop)
+      {
+        checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
+        checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
+      }
 
-      if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed)
+      if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed && !stop)
       {
         var topSpeedVelocity = playerRigidBody.velocity.normalized * horizontalSpeed;
         playerRigidBody.velocity = new Vector2(topSpeedVelocity.x, playerRigidBody.velocity.y);
       }
     }
 
+    bool stop = false;
     void OnCollisionEnter2D(Collision2D collision)
     {
-      var platform = collision.collider.GetComponent<Platform>();
-
+      var platform = collision.gameObject.GetComponent<Platform>();
       if(platform != null)
       {
-        var platformSideHit = PlatformCollider.ColliderSide.None;
-        foreach(var collider in platform.ColliderLookup)
+        var contactSide = platform.GetContactSide(collision.contacts[0].point);
+        if(contactSide == Platform.ContactSide.Top)
         {
-          if(collision.collider == collider.Value)
-          {
-            platformSideHit = collider.Key;
-            break;
-          }
-        }
-
-        if(platformSideHit == PlatformCollider.ColliderSide.Top)
-        {
+          stop = false;
           grounded = true;
           playerAnimator.SetBool(jumpAnimParamName, false);
+        }
+        else if(contactSide != Platform.ContactSide.Bottom && !grounded)
+        {
+          if(platform.Type != Platform.PlatformType.Wall)
+          {
+            var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
+            grounded = false;
+            stop = true;
+            playerRigidBody.velocity = Vector2.zero;
+            playerRigidBody.AddForce(vectorToUse * 1);
+          }
         }
       }
     }

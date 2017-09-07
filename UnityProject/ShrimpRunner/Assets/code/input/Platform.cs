@@ -1,24 +1,62 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace shrimp.platform
 {
   public class Platform : MonoBehaviour
   {
-    [SerializeField] PlatformCollider[] colliders = null;
-    public Dictionary<PlatformCollider.ColliderSide, BoxCollider2D> ColliderLookup
+    public enum PlatformType
     {
-      get;
-      private set;
+      None = 0,
+      Wall = 1,
+      Ground = 2
+    };
+
+    public PlatformType Type = PlatformType.None;
+
+    public enum ContactSide
+    {
+      Top,
+      Bottom,
+      Left,
+      Right,
+      None
     }
+
+    float leftSide;
+    float rightSide;
+    Vector2 center;
 
     void Start()
     {
-      ColliderLookup = new Dictionary<PlatformCollider.ColliderSide, BoxCollider2D>();
-      foreach(var platformCollider in colliders)
+      var bounds = GetComponent<BoxCollider2D>().bounds;
+      var halfWidth = (bounds.size.x / 2);
+      center = bounds.center;
+
+      leftSide = (center.x - halfWidth);
+      rightSide = (center.x + halfWidth);
+    }
+
+    public ContactSide GetContactSide(Vector2 contact)
+    {
+      ContactSide contactSide = ContactSide.None;
+      if(contact.x > leftSide && contact.x < rightSide && contact.y > center.y)
       {
-        ColliderLookup.Add(platformCollider.Side, platformCollider.Collider);
+        contactSide = ContactSide.Top;
       }
+      else if(contact.x > leftSide && contact.x < rightSide && contact.y < center.y)
+      {
+        contactSide = ContactSide.Bottom;
+      }
+      else if(contact.x >= leftSide)
+      {
+        contactSide = ContactSide.Left;
+      }
+      else if(contact.x <= rightSide)
+      {
+        contactSide = ContactSide.Right;
+      }
+
+      return contactSide;
     }
   }
 }
