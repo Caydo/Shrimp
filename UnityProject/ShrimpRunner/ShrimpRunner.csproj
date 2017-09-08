@@ -83,13 +83,17 @@
     <Compile Include="Assets\code\characterSelect\SelectedCharacterColor.cs" />
     <Compile Include="Assets\code\characterSelect\SelectedCharacterData.cs" />
     <Compile Include="Assets\code\characterSelect\SetPlayerSpriteFromCharacterSelected.cs" />
-    <Compile Include="Assets\code\FollowPlayerAtCameraThreshold.cs" />
+    <Compile Include="Assets\code\camera\FollowPlayerAtCameraOffset.cs" />
+    <Compile Include="Assets\code\camera\FollowPlayerAtCameraThreshold.cs" />
     <Compile Include="Assets\code\input\HandleControllerMenuInput.cs" />
+    <Compile Include="Assets\code\input\HandleEndlessRunnerPlayerInput.cs" />
+    <Compile Include="Assets\code\input\HandlePlatformPlayerInput.cs" />
     <Compile Include="Assets\code\input\HandlePlayerInput.cs" />
     <Compile Include="Assets\code\input\Platform.cs" />
     <Compile Include="Assets\code\characterSelect\SetCharacterOnSelect.cs" />
-    <Compile Include="Assets\code\LoadSceneOnSelect.cs" />
+    <Compile Include="Assets\code\sceneLoading\LoadSceneOnSelect.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
 </Project>
