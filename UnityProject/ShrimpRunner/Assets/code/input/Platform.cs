@@ -4,15 +4,6 @@ namespace shrimp.platform
 {
   public class Platform : MonoBehaviour
   {
-    public enum PlatformType
-    {
-      None = 0,
-      Wall = 1,
-      Ground = 2
-    };
-
-    public PlatformType Type = PlatformType.None;
-
     public enum ContactSide
     {
       Top,

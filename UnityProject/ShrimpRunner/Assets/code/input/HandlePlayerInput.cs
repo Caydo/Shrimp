@@ -24,9 +24,16 @@ namespace shrimp.input
     bool jumpTriggered = false;
     bool moveLeftTriggered = false;
     bool moveRightTriggered = false;
+    bool allowMovement = true;
+    float currentHeight = 0;
+    float previousHeight = 0;
+    float cornerShoveVelocity = 5;
+    bool falling = false;
 
     void Update()
     {
+      currentHeight = transform.position.y;
+      falling = (currentHeight < previousHeight);
       jumpTriggered = Input.GetButton(jumpInputName);
       var moveJoystick = Input.GetAxis(moveJoystickAxisName);
       moveLeftTriggered = Input.GetButton(moveLeftInputName) || moveJoystick < 0;
@@ -46,14 +53,23 @@ namespace shrimp.input
         playerRigidBody.velocity = Vector2.zero;
       }
 
-      checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
-      checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
-
-      if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed)
+      if(allowMovement)
       {
-        var topSpeedVelocity = playerRigidBody.velocity.normalized * horizontalSpeed;
-        playerRigidBody.velocity = new Vector2(topSpeedVelocity.x, playerRigidBody.velocity.y);
+        checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
+        checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
+
+        if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed)
+        {
+          var topSpeedVelocity = playerRigidBody.velocity.normalized * horizontalSpeed;
+          playerRigidBody.velocity = new Vector2(topSpeedVelocity.x, playerRigidBody.velocity.y);
+        }
       }
+    }
+
+    // set our last known height for the frame after all physics movements are done
+    void LateUpdate()
+    {
+      previousHeight = transform.position.y;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -68,27 +84,24 @@ namespace shrimp.input
     void handlePlatformCollision(Collision2D collision, Platform platform)
     {
       var contactSide = platform.GetContactSide(collision.contacts[0].point);
+      var cornerOrSideHit = (contactSide == Platform.ContactSide.TopRightCorner ||
+                          contactSide == Platform.ContactSide.TopLeftCorner ||
+                          contactSide == Platform.ContactSide.Left ||
+                          contactSide == Platform.ContactSide.Right);
 
-      // assume we aren't jumping anymore if:
-      // we've hit the top
-      // we've hit top right and we're pointed left
-      // we've hit top left and we're pointed right
-      if(contactSide == Platform.ContactSide.Top ||
-        (contactSide == Platform.ContactSide.TopRightCorner && playerSprite.flipX) ||
-        (contactSide == Platform.ContactSide.TopLeftCorner && !playerSprite.flipX))
+      // shove the player back a bit since we're falling so we don't get stuck physically or in our jump animation
+      if(cornerOrSideHit && !grounded && falling)
       {
+        allowMovement = false;
+        var vectorToUse = (contactSide == Platform.ContactSide.TopLeftCorner) ? Vector2.left : Vector2.right;
+        playerRigidBody.velocity = Vector2.zero;
+        playerRigidBody.AddForce(vectorToUse * cornerShoveVelocity);
+      }
+      else if(contactSide == Platform.ContactSide.Top)
+      {
+        allowMovement = true;
         grounded = true;
         playerAnimator.SetBool(jumpAnimParamName, false);
-      }
-      // we hit a platform on the left or right and we're jumping, bump the player back some to avoid getting stuck and don't
-      // allow for continual force so we actually drop
-      else if(platform.Type != Platform.PlatformType.Wall &&
-              (contactSide == Platform.ContactSide.Left || contactSide == Platform.ContactSide.Right) &&
-               !grounded)
-      {
-        var vectorToUse = (contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
-        grounded = false;
-        playerRigidBody.AddForce(vectorToUse * 3);
       }
     }
 
