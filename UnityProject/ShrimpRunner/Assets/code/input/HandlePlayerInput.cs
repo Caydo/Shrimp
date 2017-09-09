@@ -9,23 +9,32 @@ namespace shrimp.input
     [SerializeField] protected float horizontalSpeed = 3;
     [SerializeField] protected float verticalSpeed = 3;
 
+    public bool AllowInput = false;
+    public bool Dead = false;
+    public bool AllowMovement = true;
+    public Vector3 StartingPosition
+    {
+      get;
+      private set;
+    }
+
+
     protected Animator playerAnimator = null;
     protected Rigidbody2D playerRigidBody = null;
     protected SpriteRenderer playerSprite = null;
 
-    protected readonly string jumpInputName = "Jump";
-    protected readonly string jumpAnimParamName = "Jumping";
-    protected readonly string moveRightInputName = "MoveRight";
-    protected readonly string moveLeftInputName = "MoveLeft";
-    protected readonly string moveRightAnimParamName = "MoveRight";
-    protected readonly string moveLeftAnimParamName = "MoveLeft";
-    protected readonly string moveJoystickAxisName = "MoveJoystick";
+    public readonly string jumpInputName = "Jump";
+    public readonly string JumpAnimParamName = "Jumping";
+    public readonly string moveRightInputName = "MoveRight";
+    public readonly string moveLeftInputName = "MoveLeft";
+    public readonly string MoveRightAnimParamName = "MoveRight";
+    public readonly string moveLeftAnimParamName = "MoveLeft";
+    public readonly string moveJoystickAxisName = "MoveJoystick";
 
     protected bool grounded = true;
     protected bool jumpTriggered = false;
     protected bool moveLeftTriggered = false;
     protected bool moveRightTriggered = false;
-    protected bool allowMovement = true;
     protected float currentHeight = 0;
     protected float previousHeight = 0;
     protected float cornerShoveVelocity = 5;
@@ -36,28 +45,34 @@ namespace shrimp.input
       playerAnimator = GetComponent<Animator>();
       playerRigidBody = GetComponent<Rigidbody2D>();
       playerSprite = GetComponent<SpriteRenderer>();
-      start();
+      StartingPosition = transform.position;
     }
 
     void Update()
     {
-      currentHeight = transform.position.y;
-      falling = (currentHeight < previousHeight);
-      jumpTriggered = Input.GetButton(jumpInputName);
-      var moveJoystick = Input.GetAxis(moveJoystickAxisName);
-      moveLeftTriggered = Input.GetButton(moveLeftInputName) || moveJoystick < 0;
-      moveRightTriggered = Input.GetButton(moveRightInputName) || moveJoystick > 0;
+      if(AllowInput)
+      {
+        currentHeight = transform.position.y;
+        falling = (currentHeight < previousHeight);
+        jumpTriggered = Input.GetButton(jumpInputName);
+        var moveJoystick = Input.GetAxis(moveJoystickAxisName);
+        moveLeftTriggered = Input.GetButton(moveLeftInputName) || moveJoystick < 0;
+        moveRightTriggered = Input.GetButton(moveRightInputName) || moveJoystick > 0;
+      }
     }
 
     void FixedUpdate()
     {
-      if(jumpTriggered)
+      if(AllowInput)
       {
-        jumpTriggered = false;
-        jump();
-      }
+        if(jumpTriggered)
+        {
+          jumpTriggered = false;
+          jump();
+        }
 
-      handleMovement();
+        handleMovement();
+      }
     }
 
     // set our last known height for the frame after all physics movements are done
@@ -73,6 +88,10 @@ namespace shrimp.input
       {
         handlePlatformCollision(collision, platform);
       }
+      else
+      {
+        Dead = true;
+      }
     }
 
     void jump()
@@ -80,18 +99,17 @@ namespace shrimp.input
       if(grounded)
       {
         grounded = false;
-        playerAnimator.SetBool(jumpAnimParamName, true);
+        playerAnimator.SetBool(JumpAnimParamName, true);
         playerRigidBody.AddForce(Vector2.up * verticalSpeed, ForceMode2D.Impulse);
       }
     }
 
     protected abstract void handleMovement();
     protected abstract void handlePlatformCollision(Collision2D collision, Platform platform);
-    protected virtual void start(){}
 
     protected void shovePlayerBack(Vector2 shoveVector)
     {
-      allowMovement = false;
+      AllowMovement = false;
       playerRigidBody.velocity = Vector2.zero;
       playerRigidBody.AddForce(shoveVector * cornerShoveVelocity);
     }

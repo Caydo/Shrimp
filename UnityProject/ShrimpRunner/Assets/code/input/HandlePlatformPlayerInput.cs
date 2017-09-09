@@ -12,7 +12,7 @@ namespace shrimp.input
         playerRigidBody.velocity = Vector2.zero;
       }
 
-      if(allowMovement)
+      if(AllowMovement)
       {
         checkHorizontalMovement(true, moveRightTriggered, moveLeftTriggered);
         checkHorizontalMovement(false, moveLeftTriggered, moveRightTriggered);
@@ -41,22 +41,22 @@ namespace shrimp.input
       }
       else if(contactSide == Platform.ContactSide.Top)
       {
-        allowMovement = true;
+        AllowMovement = true;
         grounded = true;
-        playerAnimator.SetBool(jumpAnimParamName, false);
+        playerAnimator.SetBool(JumpAnimParamName, false);
       }
     }
 
     void stopHorizontalMovement()
     {
-      playerAnimator.SetBool(moveRightAnimParamName, false);
+      playerAnimator.SetBool(MoveRightAnimParamName, false);
       playerAnimator.SetBool(moveLeftAnimParamName, false);
       playerRigidBody.velocity = new Vector2(0, playerRigidBody.velocity.y);
     }
 
     void checkHorizontalMovement(bool isRightMovement, bool triggered, bool oppositedTriggered)
     {
-      string animName = (isRightMovement) ? moveRightAnimParamName : moveLeftAnimParamName;
+      string animName = (isRightMovement) ? MoveRightAnimParamName : moveLeftAnimParamName;
       Vector2 directionVector = (isRightMovement) ? Vector2.right : Vector2.left;
 
       if(triggered && !oppositedTriggered)

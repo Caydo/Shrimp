@@ -83,14 +83,19 @@
     <Compile Include="Assets\code\characterSelect\SelectedCharacterColor.cs" />
     <Compile Include="Assets\code\characterSelect\SelectedCharacterData.cs" />
     <Compile Include="Assets\code\characterSelect\SetPlayerSpriteFromCharacterSelected.cs" />
-    <Compile Include="Assets\code\camera\FollowPlayerAtCameraOffset.cs" />
-    <Compile Include="Assets\code\camera\FollowPlayerAtCameraThreshold.cs" />
+    <Compile Include="Assets\code\FadeCanvasGroupInThenOutOnInput.cs" />
+    <Compile Include="Assets\code\followPlayer\FollowPlayerTransform.cs" />
+    <Compile Include="Assets\code\followPlayer\FollowPlayerAtThreshold.cs" />
+    <Compile Include="Assets\code\input\DisableMouseCursorOnStart.cs" />
     <Compile Include="Assets\code\input\HandleControllerMenuInput.cs" />
     <Compile Include="Assets\code\input\HandleEndlessRunnerPlayerInput.cs" />
     <Compile Include="Assets\code\input\HandlePlatformPlayerInput.cs" />
     <Compile Include="Assets\code\input\HandlePlayerInput.cs" />
     <Compile Include="Assets\code\input\Platform.cs" />
     <Compile Include="Assets\code\characterSelect\SetCharacterOnSelect.cs" />
+    <Compile Include="Assets\code\KillPlayer.cs" />
+    <Compile Include="Assets\code\input\QuitGameOnInput.cs" />
+    <Compile Include="Assets\code\sceneLoading\LoadSceneOnInput.cs" />
     <Compile Include="Assets\code\sceneLoading\LoadSceneOnSelect.cs" />
   </ItemGroup>
   <ItemGroup />

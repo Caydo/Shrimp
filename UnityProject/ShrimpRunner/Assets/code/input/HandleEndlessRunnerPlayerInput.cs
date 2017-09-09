@@ -5,19 +5,11 @@ namespace shrimp.input
 {
   public class HandleEndlessRunnerPlayerInput : HandlePlayerInput
   {
-    [SerializeField] float shoveBackVelocity = 5;
-    Collider2D playerCollider;
-
-    protected override void start()
-    {
-      playerCollider = GetComponent<Collider2D>();
-    }
-
     protected override void handleMovement()
     {
-      if(allowMovement)
+      if(AllowMovement)
       {
-        playerAnimator.SetBool(moveRightAnimParamName, grounded);
+        playerAnimator.SetBool(MoveRightAnimParamName, grounded);
         playerRigidBody.AddForce(Vector2.right * horizontalSpeed, ForceMode2D.Impulse);
 
         if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed)
@@ -32,23 +24,6 @@ namespace shrimp.input
     void LateUpdate()
     {
       previousHeight = transform.position.y;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-      var platform = collision.gameObject.GetComponent<Platform>();
-
-      if(platform != null)
-      {
-        handlePlatformCollision(collision, platform);
-      }
-      else
-      {
-        allowMovement = false;
-        playerCollider.enabled = false;
-        playerRigidBody.velocity = Vector2.zero;
-        playerRigidBody.AddForce(Vector2.left * shoveBackVelocity);
-      }
     }
 
     protected override void handlePlatformCollision(Collision2D collision, Platform platform)
@@ -68,7 +43,7 @@ namespace shrimp.input
       else if(contactSide == Platform.ContactSide.Top)
       {
         grounded = true;
-        playerAnimator.SetBool(jumpAnimParamName, false);
+        playerAnimator.SetBool(JumpAnimParamName, false);
       }
     }
   }

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using shrimp.ui;
+using UnityEngine;
 
 namespace shrimp.characterSelect
 {
@@ -7,6 +7,18 @@ namespace shrimp.characterSelect
   {
     [SerializeField] SelectedCharacterData.Character CharacterToSelect = SelectedCharacterData.Character.Foxy;
     [SerializeField] string sceneToLoad = "runner";
+    [SerializeField] FadeCanvasGroupInThenOutOnInput fader = null;
+    bool processingSelection = false;
+
+    void Start()
+    {
+      // destroy any leftover data objects in case they weren't actually used in a game mode scene
+      var characterDataObjects = GameObject.FindGameObjectsWithTag("Data");
+      foreach(var item in characterDataObjects)
+      {
+        GameObject.Destroy(item);
+      }
+    }
 
     public void SelectCharacter()
     {
@@ -17,7 +29,8 @@ namespace shrimp.characterSelect
       characterGO.tag = "Data";
       DontDestroyOnLoad(characterGO);
 
-      SceneManager.LoadScene(sceneToLoad);
+      fader.SceneToLoad = sceneToLoad;
+      fader.Dismiss();
     }
   }
 }
