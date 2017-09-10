@@ -2,9 +2,8 @@
 
 namespace shrimp.characterSelect
 {
-  public class SetPlayerSpriteFromCharacterSelected : MonoBehaviour
+  public class SetPlayerDisplayFromCharacterSelected : MonoBehaviour
   {
-    [SerializeField] SpriteRenderer spriteRenderer = null;
     [SerializeField] SelectedCharacterColor[] characterColors = null;
     [SerializeField] ParticleSystem deathParticles = null;
 
@@ -17,9 +16,7 @@ namespace shrimp.characterSelect
       {
         if(data.SelectedCharacter == selectedCharacterColor.Character)
         {
-          spriteRenderer.color = selectedCharacterColor.CharacterColor;
           deathParticlesModule.startColor = selectedCharacterColor.CharacterColor;
-          spriteRenderer.enabled = true;
           break;
         }
       }

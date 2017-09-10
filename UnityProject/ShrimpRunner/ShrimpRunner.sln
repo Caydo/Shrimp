@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrimpRunner.Plugins", "ShrimpRunner.Plugins.csproj", "{707D7039-F9DC-F389-8766-640E43433505}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShrimpRunner", "ShrimpRunner.csproj", "{2293DEB5-2856-AC63-84ED-7AFDC16E1E6B}"
 EndProject
 Global
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{707D7039-F9DC-F389-8766-640E43433505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707D7039-F9DC-F389-8766-640E43433505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707D7039-F9DC-F389-8766-640E43433505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707D7039-F9DC-F389-8766-640E43433505}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2293DEB5-2856-AC63-84ED-7AFDC16E1E6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2293DEB5-2856-AC63-84ED-7AFDC16E1E6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2293DEB5-2856-AC63-84ED-7AFDC16E1E6B}.Release|Any CPU.ActiveCfg = Release|Any CPU

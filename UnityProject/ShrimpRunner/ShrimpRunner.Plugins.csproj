@@ -5,21 +5,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2293DEB5-2856-AC63-84ED-7AFDC16E1E6B}</ProjectGuid>
+    <ProjectGuid>{707D7039-F9DC-F389-8766-640E43433505}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.6.3p1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -80,31 +78,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ShrimpRunner.Plugins.csproj">
-      <Project>{707D7039-F9DC-F389-8766-640E43433505}</Project>
-      <Name>ShrimpRunner.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\code\FadeCanvasGroupInThenOutOnInput.cs" />
-    <Compile Include="Assets\code\KillPlayer.cs" />
-    <Compile Include="Assets\code\characterSelect\SelectedCharacterColor.cs" />
-    <Compile Include="Assets\code\characterSelect\SelectedCharacterData.cs" />
-    <Compile Include="Assets\code\characterSelect\SetCharacterOnSelect.cs" />
-    <Compile Include="Assets\code\characterSelect\SetPlayerDisplayFromCharacterSelected.cs" />
-    <Compile Include="Assets\code\followPlayer\FollowPlayerAtThreshold.cs" />
-    <Compile Include="Assets\code\followPlayer\FollowPlayerTransform.cs" />
-    <Compile Include="Assets\code\input\DisableMouseCursorOnStart.cs" />
-    <Compile Include="Assets\code\input\HandleControllerMenuInput.cs" />
-    <Compile Include="Assets\code\input\HandleEndlessRunnerPlayerInput.cs" />
-    <Compile Include="Assets\code\input\HandlePlatformPlayerInput.cs" />
-    <Compile Include="Assets\code\input\HandlePlayerInput.cs" />
-    <Compile Include="Assets\code\input\Platform.cs" />
-    <Compile Include="Assets\code\input\QuitGameOnInput.cs" />
-    <Compile Include="Assets\code\sceneLoading\LoadSceneOnInput.cs" />
-    <Compile Include="Assets\code\sceneLoading\LoadSceneOnSelect.cs" />
-    <Compile Include="Assets\code\sceneObjects\DestroyOnBecameInvisible.cs" />
-    <Compile Include="Assets\code\sceneObjects\LevelSpawner.cs" />
+    <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PoolManager.cs" />
+    <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\PreRuntimePoolItem.cs" />
+    <Compile Include="Assets\Plugins\PathologicalGames\PoolManager\SpawnPool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />

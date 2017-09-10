@@ -12,7 +12,7 @@ namespace shrimp.ui
     [SerializeField] string continueInputName = "Continue";
     [SerializeField] HandlePlayerInput playerInput = null;
     [SerializeField] bool externalDismiss = false;
-    [SerializeField] GameObject[] itemsToBeforeFadeIn = null;
+    [SerializeField] GameObject[] itemsToSetActiveBeforeFadeIn = null;
 
     public string SceneToLoad = "";
     bool dismissed = false;
@@ -37,9 +37,9 @@ namespace shrimp.ui
         yield return null;
       }
 
-      if(itemsToBeforeFadeIn != null)
+      if(itemsToSetActiveBeforeFadeIn != null)
       {
-        foreach(var item in itemsToBeforeFadeIn)
+        foreach(var item in itemsToSetActiveBeforeFadeIn)
         {
           item.SetActive(true);
         }

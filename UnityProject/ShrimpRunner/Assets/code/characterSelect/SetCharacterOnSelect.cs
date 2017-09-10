@@ -8,7 +8,6 @@ namespace shrimp.characterSelect
     [SerializeField] SelectedCharacterData.Character CharacterToSelect = SelectedCharacterData.Character.Foxy;
     [SerializeField] string sceneToLoad = "runner";
     [SerializeField] FadeCanvasGroupInThenOutOnInput fader = null;
-    bool processingSelection = false;
 
     void Start()
     {
