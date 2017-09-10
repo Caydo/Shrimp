@@ -1,4 +1,5 @@
 ﻿using shrimp.input;
+using shrimp.sceneObjects;
 using System.Collections;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace shrimp.player
     [SerializeField] float alphaIncrementOverTime = 0.01f;
     [SerializeField] float deathReactTime = 0.75f;
     [SerializeField] GameObject firstLevel = null;
+    [SerializeField] LevelSpawner spawner = null;
 
     HandlePlayerInput playerInput = null;
     Rigidbody2D playerRigidBody = null;
@@ -67,11 +69,18 @@ namespace shrimp.player
       // give the player time to contemplate their death
       yield return new WaitForSeconds(deathReactTime);
 
-      playerTransform.position = playerInput.StartingPosition;
+      playerInput.ResetPlayer();
+      playerInput.ResetPosition();
+
       playerSprite.enabled = true;
       playerRigidBody.isKinematic = false;
       playerInput.Dead = false;
-      firstLevel.SetActive(true);
+
+      // gets destroyed as the player advances in the platformer, doesn't in endless runner
+      if(firstLevel != null)
+      {
+        firstLevel.SetActive(true);
+      }
 
       while(gameOverCanvasGroup.alpha > 0)
       {
@@ -79,6 +88,7 @@ namespace shrimp.player
         yield return null;
       }
 
+      playerInput.AllowInput = true;
       playerInput.AllowMovement = true;
     }
   }

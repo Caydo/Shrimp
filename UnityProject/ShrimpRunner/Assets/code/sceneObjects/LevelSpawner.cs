@@ -36,5 +36,18 @@ namespace shrimp.sceneObjects
         spawnedLevel.GetComponentInChildren<DespawnOnBecameInvisible>().Spawner = this;
       }
     }
+
+    public Transform SpawnLevel(Transform levelToSpawn)
+    {
+      var spawnedLevel = PoolManager.Pools[poolName].Spawn(levelToSpawn, transform);
+
+      if(isRunnerSpawner)
+      {
+        spawnedLevel.GetComponent<SpawnLevelOnTrigger>().Spawner = this;
+        spawnedLevel.GetComponentInChildren<DespawnOnBecameInvisible>().Spawner = this;
+      }
+
+      return spawnedLevel;
+    }
   }
 }

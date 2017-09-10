@@ -28,7 +28,6 @@ namespace shrimp.scenes
         groupToFade.interactable = false;
         if(groupToFade.alpha == 1)
         {
-          Debug.Log("alpha " + groupToFade.alpha);
           while(groupToFade.alpha > 0)
           {
             groupToFade.alpha -= fadeSpeed;

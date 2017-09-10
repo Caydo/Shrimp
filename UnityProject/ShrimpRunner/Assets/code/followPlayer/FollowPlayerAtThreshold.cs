@@ -8,21 +8,31 @@ namespace shrimp.followPlayer
     [SerializeField] Vector2 differenceThreshold = Vector2.zero;
     [SerializeField] float moveSpeed = 3;
     Vector3 finalDestination = Vector3.zero;
-    
+    bool resetting = false;
+    Vector3 startingPosition = Vector3.zero;
+
+    void Start()
+    {
+      startingPosition = transform.position;
+    }
+
     void Update()
     {
-      var shouldRepositionX = getDifference(true) > differenceThreshold.x;
-      if(shouldRepositionX)
+      if(!resetting)
       {
-        finalDestination = new Vector3(playerTransform.position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, finalDestination, Time.deltaTime * moveSpeed);
-      }
+        var shouldRepositionX = getDifference(true) > differenceThreshold.x;
+        if(shouldRepositionX)
+        {
+          finalDestination = new Vector3(playerTransform.position.x, transform.position.y, transform.position.z);
+          transform.position = Vector3.Lerp(transform.position, finalDestination, Time.deltaTime * moveSpeed);
+        }
 
-      var shouldRepositionY = getDifference(false) > differenceThreshold.y;
-      if(shouldRepositionY)
-      {
-        finalDestination = new Vector3(transform.position.x, playerTransform.position.y, transform.position.z);
-        transform.position = Vector3.Lerp(transform.position, finalDestination, Time.deltaTime * moveSpeed);
+        var shouldRepositionY = getDifference(false) > differenceThreshold.y;
+        if(shouldRepositionY)
+        {
+          finalDestination = new Vector3(transform.position.x, playerTransform.position.y, transform.position.z);
+          transform.position = Vector3.Lerp(transform.position, finalDestination, Time.deltaTime * moveSpeed);
+        }
       }
     }
 
@@ -32,6 +42,13 @@ namespace shrimp.followPlayer
       var currentPosition = (isXDifference) ? transform.position.x : transform.position.y;
 
       return (playerPosition > currentPosition) ? (playerPosition - currentPosition)  : (currentPosition - playerPosition);
+    }
+
+    public void ResetPosition()
+    {
+      resetting = true;
+      transform.position = startingPosition;
+      resetting = false;
     }
   }
 }

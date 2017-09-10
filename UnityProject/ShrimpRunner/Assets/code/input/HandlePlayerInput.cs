@@ -1,4 +1,5 @@
 ﻿using shrimp.platform;
+using shrimp.sceneObjects;
 using UnityEngine;
 
 namespace shrimp.input
@@ -12,12 +13,8 @@ namespace shrimp.input
     public bool AllowInput = false;
     public bool Dead = false;
     public bool AllowMovement = true;
-    public Vector3 StartingPosition
-    {
-      get;
-      private set;
-    }
-
+    public SpawnNextLevelAndResetPlayerOnTrigger NextLevelSpawner = null;
+    Vector3 startingPosition = Vector3.zero;
 
     protected Animator playerAnimator = null;
     protected Rigidbody2D playerRigidBody = null;
@@ -30,6 +27,7 @@ namespace shrimp.input
     public readonly string MoveRightAnimParamName = "MoveRight";
     public readonly string moveLeftAnimParamName = "MoveLeft";
     public readonly string moveJoystickAxisName = "MoveJoystick";
+    public readonly string interactWithObjectInputName = "Interact";
 
     protected bool grounded = true;
     protected bool jumpTriggered = false;
@@ -39,13 +37,14 @@ namespace shrimp.input
     protected float previousHeight = 0;
     protected float cornerShoveVelocity = 5;
     protected bool falling = false;
+    bool levelSpawnTriggered = false;
 
     void Start()
     {
       playerAnimator = GetComponent<Animator>();
       playerRigidBody = GetComponent<Rigidbody2D>();
       playerSprite = GetComponent<SpriteRenderer>();
-      StartingPosition = transform.position;
+      startingPosition = transform.position;
     }
 
     void Update()
@@ -56,8 +55,15 @@ namespace shrimp.input
         falling = (currentHeight < previousHeight);
         jumpTriggered = Input.GetButton(jumpInputName);
         var moveJoystick = Input.GetAxis(moveJoystickAxisName);
+        var interactTriggered = Input.GetButtonDown(interactWithObjectInputName);
         moveLeftTriggered = Input.GetButton(moveLeftInputName) || moveJoystick < 0;
         moveRightTriggered = Input.GetButton(moveRightInputName) || moveJoystick > 0;
+
+        if(!levelSpawnTriggered && interactTriggered && NextLevelSpawner != null)
+        {
+          levelSpawnTriggered = true;
+          NextLevelSpawner.SpawnNextLevel();
+        }
       }
     }
 
@@ -112,6 +118,22 @@ namespace shrimp.input
       AllowMovement = false;
       playerRigidBody.velocity = Vector2.zero;
       playerRigidBody.AddForce(shoveVector * cornerShoveVelocity);
+    }
+
+    public void ResetPlayer()
+    {
+      AllowInput = false;
+      AllowMovement = false;
+      playerRigidBody.velocity = Vector2.zero;
+      playerAnimator.SetBool(JumpAnimParamName, false);
+      playerAnimator.SetBool(MoveRightAnimParamName, false);
+      playerAnimator.SetBool(moveLeftAnimParamName, false);
+      levelSpawnTriggered = false;
+    }
+
+    public void ResetPosition()
+    {
+      transform.position = startingPosition;
     }
   }
 }
