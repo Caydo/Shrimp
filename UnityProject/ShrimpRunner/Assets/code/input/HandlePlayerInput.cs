@@ -83,12 +83,12 @@ namespace shrimp.input
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-      var platform = collision.gameObject.GetComponent<Platform>();
-      if(platform != null)
+      var collidable = collision.gameObject.GetComponent<Collidable>();
+      if(collidable.Type == Collidable.CollidableType.Platform)
       {
-        handlePlatformCollision(collision, platform);
+        handlePlatformCollision(collision, collidable);
       }
-      else
+      else if(collidable.Type == Collidable.CollidableType.Death)
       {
         Dead = true;
       }
@@ -105,7 +105,7 @@ namespace shrimp.input
     }
 
     protected abstract void handleMovement();
-    protected abstract void handlePlatformCollision(Collision2D collision, Platform platform);
+    protected abstract void handlePlatformCollision(Collision2D collision, Collidable platform);
 
     protected void shovePlayerBack(Vector2 shoveVector)
     {

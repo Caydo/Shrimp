@@ -99,12 +99,13 @@
     <Compile Include="Assets\code\input\HandleEndlessRunnerPlayerInput.cs" />
     <Compile Include="Assets\code\input\HandlePlatformPlayerInput.cs" />
     <Compile Include="Assets\code\input\HandlePlayerInput.cs" />
-    <Compile Include="Assets\code\input\Platform.cs" />
+    <Compile Include="Assets\code\sceneObjects\Collidable.cs" />
     <Compile Include="Assets\code\input\QuitGameOnInput.cs" />
     <Compile Include="Assets\code\sceneLoading\LoadSceneOnInput.cs" />
     <Compile Include="Assets\code\sceneLoading\LoadSceneOnSelect.cs" />
-    <Compile Include="Assets\code\sceneObjects\DestroyOnBecameInvisible.cs" />
+    <Compile Include="Assets\code\sceneObjects\DespawnOnBecameInvisible.cs" />
     <Compile Include="Assets\code\sceneObjects\LevelSpawner.cs" />
+    <Compile Include="Assets\code\sceneObjects\SpawnLevelOnTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />

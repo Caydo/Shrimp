@@ -25,21 +25,21 @@ namespace shrimp.input
       }
     }
 
-    protected override void handlePlatformCollision(Collision2D collision, Platform platform)
+    protected override void handlePlatformCollision(Collision2D collision, Collidable platform)
     {
       var contactSide = platform.GetContactSide(collision.contacts[0].point);
-      var cornerOrSideHit = (contactSide == Platform.ContactSide.TopRightCorner ||
-                          contactSide == Platform.ContactSide.TopLeftCorner ||
-                          contactSide == Platform.ContactSide.Left ||
-                          contactSide == Platform.ContactSide.Right);
+      var cornerOrSideHit = (contactSide == Collidable.ContactSide.TopRightCorner ||
+                          contactSide == Collidable.ContactSide.TopLeftCorner ||
+                          contactSide == Collidable.ContactSide.Left ||
+                          contactSide == Collidable.ContactSide.Right);
 
       // shove the player back a bit since we're falling so we don't get stuck physically or in our jump animation
       if(cornerOrSideHit && !grounded && falling)
       {
-        var vectorToUse = (contactSide == Platform.ContactSide.TopLeftCorner || contactSide == Platform.ContactSide.Left) ? Vector2.left : Vector2.right;
+        var vectorToUse = (contactSide == Collidable.ContactSide.TopLeftCorner || contactSide == Collidable.ContactSide.Left) ? Vector2.left : Vector2.right;
         shovePlayerBack(vectorToUse);
       }
-      else if(contactSide == Platform.ContactSide.Top)
+      else if(contactSide == Collidable.ContactSide.Top)
       {
         AllowMovement = true;
         grounded = true;
