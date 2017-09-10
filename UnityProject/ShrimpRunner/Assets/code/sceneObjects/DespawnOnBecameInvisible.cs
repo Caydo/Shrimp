@@ -9,7 +9,7 @@ namespace shrimp.sceneObjects
     public LevelSpawner Spawner;
     void OnBecameInvisible()
     {
-      Spawner.DeSpawnLevel(levelRoot);
+      Spawner.DespawnLevel(levelRoot);
     }
   }
 }

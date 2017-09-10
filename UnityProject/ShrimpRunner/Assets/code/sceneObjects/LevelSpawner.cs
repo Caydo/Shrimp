@@ -7,41 +7,34 @@ namespace shrimp.sceneObjects
   {
     [SerializeField] GameObject[] levelPrefabs = null;
     [SerializeField] float nonStartingLevelSpawnXPosition = 45; // where to spawn the next level after the starting one, kind of magic number-y but should be doable if all levels have the same width
+    [SerializeField] bool isRunnerSpawner = true;
     readonly string poolName = "levels";
-    int levelsSpawned = 0;
+    int spawnedLevels = 0;
 
-    void Start()
+    public void DespawnLevel(Transform levelToDespawn)
     {
-      SpawnLevel(0);
-    }
-
-    public void DespawnAll()
-    {
-      levelsSpawned = 0;
-      PoolManager.Pools[poolName].DespawnAll();
-    }
-
-    public void DeSpawnLevel(Transform levelToDespawn)
-    {
-      PoolManager.Pools[poolName].Despawn(levelToDespawn);
-    }
-
-    public void SpawnLevel(int levelIndex = -1)
-    {
-      float spawnXPosition = transform.position.x;
-      if(levelIndex < 0)
+      spawnedLevels--;
+      if(PoolManager.Pools[poolName].IsSpawned(levelToDespawn))
       {
-        levelIndex = Random.Range(1, levelPrefabs.Length - 1);
-        spawnXPosition = nonStartingLevelSpawnXPosition;
+        PoolManager.Pools[poolName].Despawn(levelToDespawn);
       }
+    }
 
+    public void SpawnLevel()
+    {
+      spawnedLevels++;
+      var levelIndex = Random.Range(0, levelPrefabs.Length - 1);
+      var spawnXPosition = nonStartingLevelSpawnXPosition;
+      
       var level = levelPrefabs[levelIndex].transform;
-      var spawnPosition = new Vector3(spawnXPosition * levelsSpawned, transform.localPosition.y, transform.localPosition.z);
-
+      var spawnPosition = new Vector3(spawnXPosition * spawnedLevels, transform.localPosition.y, transform.localPosition.z);
       var spawnedLevel = PoolManager.Pools[poolName].Spawn(level, spawnPosition, Quaternion.identity, transform);
-      spawnedLevel.GetComponent<SpawnLevelOnTrigger>().Spawner = this;
-      spawnedLevel.GetComponentInChildren<DespawnOnBecameInvisible>().Spawner = this;
-      levelsSpawned++;
+
+      if(isRunnerSpawner)
+      {
+        spawnedLevel.GetComponent<SpawnLevelOnTrigger>().Spawner = this;
+        spawnedLevel.GetComponentInChildren<DespawnOnBecameInvisible>().Spawner = this;
+      }
     }
   }
 }

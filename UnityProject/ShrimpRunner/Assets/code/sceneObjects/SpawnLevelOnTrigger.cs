@@ -5,7 +5,6 @@ namespace shrimp.sceneObjects
 {
   public class SpawnLevelOnTrigger : MonoBehaviour
   {
-    [HideInInspector]
     public LevelSpawner Spawner = null;
     void OnTriggerEnter2D(Collider2D collision)
     {

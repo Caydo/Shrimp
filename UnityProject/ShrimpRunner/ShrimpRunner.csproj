@@ -104,6 +104,7 @@
     <Compile Include="Assets\code\sceneLoading\LoadSceneOnInput.cs" />
     <Compile Include="Assets\code\sceneLoading\LoadSceneOnSelect.cs" />
     <Compile Include="Assets\code\sceneObjects\DespawnOnBecameInvisible.cs" />
+    <Compile Include="Assets\code\sceneObjects\DisableOnBecameInvisible.cs" />
     <Compile Include="Assets\code\sceneObjects\LevelSpawner.cs" />
     <Compile Include="Assets\code\sceneObjects\SpawnLevelOnTrigger.cs" />
   </ItemGroup>

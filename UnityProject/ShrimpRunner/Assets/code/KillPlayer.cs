@@ -1,5 +1,4 @@
 ﻿using shrimp.input;
-using shrimp.sceneObjects;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace shrimp.player
     [SerializeField] CanvasGroup gameOverCanvasGroup = null;
     [SerializeField] float alphaIncrementOverTime = 0.01f;
     [SerializeField] float deathReactTime = 0.75f;
-    [SerializeField] LevelSpawner spawner = null;
+    [SerializeField] GameObject firstLevel = null;
 
     HandlePlayerInput playerInput = null;
     Rigidbody2D playerRigidBody = null;
@@ -72,8 +71,7 @@ namespace shrimp.player
       playerSprite.enabled = true;
       playerRigidBody.isKinematic = false;
       playerInput.Dead = false;
-      spawner.DespawnAll();
-      spawner.SpawnLevel(0);
+      firstLevel.SetActive(true);
 
       while(gameOverCanvasGroup.alpha > 0)
       {
