@@ -10,13 +10,13 @@ namespace shrimp.scenes
     [SerializeField] CanvasGroup groupToFade = null;
     [SerializeField] float fadeSpeed = 0.01f;
     readonly string inputName = "LeaveScene";
-    bool leaving = false;
+    public bool Leaving = false;
     
     void Update()
     {
-      if(!leaving && Input.GetButtonUp(inputName))
+      if(!Leaving && Input.GetButtonUp(inputName))
       {
-        leaving = true;
+        Leaving = true;
         StartCoroutine(leaveScene());
       }
     }

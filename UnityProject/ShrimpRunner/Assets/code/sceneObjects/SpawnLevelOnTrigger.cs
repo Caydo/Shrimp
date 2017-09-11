@@ -11,7 +11,7 @@ namespace shrimp.sceneObjects
       // a player hit our trigger so create the next level
       if(collision.GetComponent<HandlePlayerInput>() != null)
       {
-        Spawner.SpawnLevel();
+        Spawner.SpawnRandomLevel();
       }
     }
   }

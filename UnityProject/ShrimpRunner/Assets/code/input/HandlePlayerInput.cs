@@ -13,7 +13,13 @@ namespace shrimp.input
     public bool AllowInput = false;
     public bool Dead = false;
     public bool AllowMovement = true;
-    public SpawnNextLevelAndResetPlayerOnTrigger NextLevelSpawner = null;
+    public bool Interacting
+    {
+      get;
+      private set;
+    }
+
+    public InteractableItem CurrentInteractable = null;
     Vector3 startingPosition = Vector3.zero;
 
     protected Animator playerAnimator = null;
@@ -37,7 +43,7 @@ namespace shrimp.input
     protected float previousHeight = 0;
     protected float cornerShoveVelocity = 5;
     protected bool falling = false;
-    bool levelSpawnTriggered = false;
+    bool interactTriggered = false;
 
     void Start()
     {
@@ -55,14 +61,14 @@ namespace shrimp.input
         falling = (currentHeight < previousHeight);
         jumpTriggered = Input.GetButton(jumpInputName);
         var moveJoystick = Input.GetAxis(moveJoystickAxisName);
-        var interactTriggered = Input.GetButtonDown(interactWithObjectInputName);
+        interactTriggered = Input.GetButtonDown(interactWithObjectInputName);
         moveLeftTriggered = Input.GetButton(moveLeftInputName) || moveJoystick < 0;
         moveRightTriggered = Input.GetButton(moveRightInputName) || moveJoystick > 0;
 
-        if(!levelSpawnTriggered && interactTriggered && NextLevelSpawner != null)
+        if(interactTriggered && CurrentInteractable != null)
         {
-          levelSpawnTriggered = true;
-          NextLevelSpawner.SpawnNextLevel();
+          interactTriggered = false;
+          CurrentInteractable.Interact();
         }
       }
     }
@@ -128,7 +134,6 @@ namespace shrimp.input
       playerAnimator.SetBool(JumpAnimParamName, false);
       playerAnimator.SetBool(MoveRightAnimParamName, false);
       playerAnimator.SetBool(moveLeftAnimParamName, false);
-      levelSpawnTriggered = false;
     }
 
     public void ResetPosition()

@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\code\input\FadeCanvasGroupInThenOutOnInput.cs" />
-    <Compile Include="Assets\code\KillPlayer.cs" />
+    <Compile Include="Assets\code\player\KillPlayer.cs" />
     <Compile Include="Assets\code\characterSelect\SelectedCharacterColor.cs" />
     <Compile Include="Assets\code\characterSelect\SelectedCharacterData.cs" />
     <Compile Include="Assets\code\characterSelect\SetCharacterOnSelect.cs" />
@@ -99,15 +99,21 @@
     <Compile Include="Assets\code\input\HandleEndlessRunnerPlayerInput.cs" />
     <Compile Include="Assets\code\input\HandlePlatformPlayerInput.cs" />
     <Compile Include="Assets\code\input\HandlePlayerInput.cs" />
+    <Compile Include="Assets\code\player\SetTextFromPlayerScore.cs" />
     <Compile Include="Assets\code\sceneObjects\Collidable.cs" />
     <Compile Include="Assets\code\input\QuitGameOnInput.cs" />
     <Compile Include="Assets\code\sceneLoading\LoadSceneOnInput.cs" />
     <Compile Include="Assets\code\sceneLoading\LoadSceneOnSelect.cs" />
     <Compile Include="Assets\code\sceneObjects\DespawnOnBecameInvisible.cs" />
     <Compile Include="Assets\code\sceneObjects\DisableOnBecameInvisible.cs" />
+    <Compile Include="Assets\code\sceneObjects\InteractableItem.cs" />
+    <Compile Include="Assets\code\sceneObjects\InteractableSprite.cs" />
     <Compile Include="Assets\code\sceneObjects\LevelSpawner.cs" />
+    <Compile Include="Assets\code\sceneObjects\ChangeScoreOnTrigger.cs" />
     <Compile Include="Assets\code\sceneObjects\SpawnLevelOnTrigger.cs" />
-    <Compile Include="Assets\code\sceneObjects\SpawnNextLevelAndResetPlayerOnTrigger.cs" />
+    <Compile Include="Assets\code\sceneObjects\EnterNextLevelOnInteract.cs" />
+    <Compile Include="Assets\code\player\TrackPlayerScore.cs" />
+    <Compile Include="Assets\code\sceneObjects\SpawnNextPlatformerLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\PathologicalGames\readme.txt" />
