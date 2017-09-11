@@ -5,9 +5,16 @@ namespace shrimp.sceneObjects
 {
   public abstract class InteractableItem : MonoBehaviour
   {
-    public HandlePlayerInput PlayerInput = null;
     public abstract void Interact();
     public virtual void ResetItem(){}
+    protected HandlePlayerInput playerInput;
+    protected LevelSpawner spawner;
+
+    public void Setup(HandlePlayerInput playerInput, LevelSpawner spawner)
+    {
+      this.playerInput = playerInput;
+      this.spawner = spawner;
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -16,9 +23,9 @@ namespace shrimp.sceneObjects
 
     protected virtual void triggerEntered(Collider2D collision)
     {
-      if(PlayerInput != null && collision.gameObject == PlayerInput.gameObject)
+      if(playerInput != null && collision.gameObject == playerInput.gameObject)
       {
-        PlayerInput.CurrentInteractable = this;
+        playerInput.CurrentInteractable = this;
       }
     }
 
@@ -29,9 +36,9 @@ namespace shrimp.sceneObjects
 
     protected virtual void triggerExited(Collider2D collision)
     {
-      if(PlayerInput != null && collision.gameObject == PlayerInput.gameObject)
+      if(playerInput != null && collision.gameObject == playerInput.gameObject)
       {
-        PlayerInput.CurrentInteractable = null;
+        playerInput.CurrentInteractable = null;
       }
     }
   }

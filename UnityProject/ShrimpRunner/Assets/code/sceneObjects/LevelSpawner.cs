@@ -16,7 +16,7 @@ namespace shrimp.sceneObjects
 
     readonly string poolName = "levels";
     int spawnedLevels = 0;
-    Transform lastSpawnedLevel = null;
+    public Transform CurrentLevel = null;
 
     void Start()
     {
@@ -62,7 +62,7 @@ namespace shrimp.sceneObjects
 
     public void DespawnCurrentLevel()
     {
-      DespawnLevel(lastSpawnedLevel);
+      DespawnLevel(CurrentLevel);
     }
 
     public void ResetLevel()
@@ -71,7 +71,7 @@ namespace shrimp.sceneObjects
       {
         PoolManager.Pools[poolName].DespawnAll();
         spawnedLevels = 0;
-        SpawnLevel(lastSpawnedLevel);
+        SpawnLevel(CurrentLevel);
       }
     }
 
@@ -89,11 +89,9 @@ namespace shrimp.sceneObjects
 
       foreach(var interactableItem in spawnedLevel.GetComponentsInChildren<InteractableItem>())
       {
-        interactableItem.PlayerInput = playerInput;
+        interactableItem.Setup(playerInput, this);
         interactableItem.ResetItem();
       }
-
-      lastSpawnedLevel = spawnedLevel;
     }
   }
 }

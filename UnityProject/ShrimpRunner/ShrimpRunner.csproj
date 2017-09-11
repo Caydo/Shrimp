@@ -110,6 +110,7 @@
     <Compile Include="Assets\code\sceneObjects\InteractableSprite.cs" />
     <Compile Include="Assets\code\sceneObjects\LevelSpawner.cs" />
     <Compile Include="Assets\code\sceneObjects\ChangeScoreOnTrigger.cs" />
+    <Compile Include="Assets\code\sceneObjects\SetCurrentLevelOnTrigger.cs" />
     <Compile Include="Assets\code\sceneObjects\SpawnLevelOnTrigger.cs" />
     <Compile Include="Assets\code\sceneObjects\EnterNextLevelOnInteract.cs" />
     <Compile Include="Assets\code\player\TrackPlayerScore.cs" />
