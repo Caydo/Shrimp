@@ -20,8 +20,7 @@ namespace shrimp.sceneObjects
 
     void Start()
     {
-      SpawnLevel(levelPrefabs[0].transform);
-      CurrentLevel = levelPrefabs[0].transform;
+      CurrentLevel = SpawnLevel(levelPrefabs[0].transform);
       playerInput.ResetPosition();
     }
 
@@ -53,10 +52,10 @@ namespace shrimp.sceneObjects
     {
       if(!inputSceneLoader.Leaving)
       {
-        var spawnedLevel = PoolManager.Pools[poolName].Spawn(levelToSpawn, transform);
-        setupLevel(spawnedLevel);
+        CurrentLevel = PoolManager.Pools[poolName].Spawn(levelToSpawn, transform);
+        setupLevel(CurrentLevel);
         spawnedLevels++;
-        return spawnedLevel;
+        return CurrentLevel;
       }
 
       return null;

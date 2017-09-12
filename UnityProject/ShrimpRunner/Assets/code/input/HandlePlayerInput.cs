@@ -11,6 +11,7 @@ namespace shrimp.input
     [SerializeField] protected float verticalSpeed = 3;
     [SerializeField] LevelSpawner spawner = null;
 
+    public bool Grounded = true;
     public bool AllowInput = false;
     public bool Dead = false;
     public bool AllowMovement = true;
@@ -35,7 +36,6 @@ namespace shrimp.input
     public readonly string moveJoystickAxisName = "MoveJoystick";
     public readonly string interactWithObjectInputName = "Interact";
 
-    protected bool grounded = true;
     protected bool jumpTriggered = false;
     protected bool moveLeftTriggered = false;
     protected bool moveRightTriggered = false;
@@ -107,9 +107,9 @@ namespace shrimp.input
 
     void jump()
     {
-      if(grounded)
+      if(Grounded)
       {
-        grounded = false;
+        Grounded = false;
         playerAnimator.SetBool(JumpAnimParamName, true);
         playerRigidBody.AddForce(Vector2.up * verticalSpeed, ForceMode2D.Impulse);
       }

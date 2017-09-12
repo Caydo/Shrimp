@@ -92,6 +92,7 @@ namespace shrimp.player
         yield return null;
       }
 
+      playerInput.Grounded = true;
       playerInput.AllowInput = true;
       playerInput.AllowMovement = true;
     }

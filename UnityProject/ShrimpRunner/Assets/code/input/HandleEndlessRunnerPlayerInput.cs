@@ -9,7 +9,7 @@ namespace shrimp.input
     {
       if(AllowMovement)
       {
-        playerAnimator.SetBool(MoveRightAnimParamName, grounded);
+        playerAnimator.SetBool(MoveRightAnimParamName, Grounded);
         playerRigidBody.AddForce(Vector2.right * horizontalSpeed, ForceMode2D.Impulse);
 
         if(playerRigidBody.velocity.magnitude > maxHorizontalSpeed)
@@ -35,14 +35,14 @@ namespace shrimp.input
                           contactSide == Collidable.ContactSide.Right);
 
       // shove the player back a bit since we're falling so we don't get stuck physically or in our jump animation
-      if(cornerOrSideHit && !grounded && falling)
+      if(cornerOrSideHit && !Grounded && falling)
       {
         var vectorToUse = (contactSide == Collidable.ContactSide.TopLeftCorner || contactSide == Collidable.ContactSide.Left) ? Vector2.left : Vector2.right;
         shovePlayerBack(vectorToUse);
       }
       else if(contactSide == Collidable.ContactSide.Top)
       {
-        grounded = true;
+        Grounded = true;
         playerAnimator.SetBool(JumpAnimParamName, false);
       }
     }

@@ -7,7 +7,7 @@ namespace shrimp.input
   {
     protected override void handleMovement()
     {
-      if(grounded && moveLeftTriggered & moveRightTriggered && playerRigidBody.velocity.y == 0)
+      if(Grounded && moveLeftTriggered & moveRightTriggered && playerRigidBody.velocity.y == 0)
       {
         playerRigidBody.velocity = Vector2.zero;
       }
@@ -34,7 +34,7 @@ namespace shrimp.input
                           contactSide == Collidable.ContactSide.Right);
 
       // shove the player back a bit since we're falling so we don't get stuck physically or in our jump animation
-      if(cornerOrSideHit && !grounded && falling)
+      if(cornerOrSideHit && !Grounded && falling)
       {
         var vectorToUse = (contactSide == Collidable.ContactSide.TopLeftCorner || contactSide == Collidable.ContactSide.Left) ? Vector2.left : Vector2.right;
         shovePlayerBack(vectorToUse);
@@ -42,7 +42,7 @@ namespace shrimp.input
       else if(contactSide == Collidable.ContactSide.Top)
       {
         AllowMovement = true;
-        grounded = true;
+        Grounded = true;
         playerAnimator.SetBool(JumpAnimParamName, false);
       }
     }
@@ -65,7 +65,7 @@ namespace shrimp.input
         playerRigidBody.AddForce(directionVector * horizontalSpeed, ForceMode2D.Impulse);
         playerSprite.flipX = !isRightMovement;
       }
-      else if(!triggered && !oppositedTriggered && grounded && playerRigidBody.velocity.y == 0)
+      else if(!triggered && !oppositedTriggered && Grounded && playerRigidBody.velocity.y == 0)
       {
         playerAnimator.SetBool(animName, false);
         playerRigidBody.velocity = new Vector2(0, playerRigidBody.velocity.y);
