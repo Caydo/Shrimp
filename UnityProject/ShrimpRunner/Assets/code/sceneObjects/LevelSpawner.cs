@@ -21,6 +21,8 @@ namespace shrimp.sceneObjects
     void Start()
     {
       SpawnLevel(levelPrefabs[0].transform);
+      CurrentLevel = levelPrefabs[0].transform;
+      playerInput.ResetPosition();
     }
 
     public void DespawnLevel(Transform levelToDespawn)

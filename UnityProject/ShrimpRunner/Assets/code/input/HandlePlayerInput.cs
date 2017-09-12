@@ -9,6 +9,7 @@ namespace shrimp.input
     [SerializeField] protected float maxHorizontalSpeed = 5;
     [SerializeField] protected float horizontalSpeed = 3;
     [SerializeField] protected float verticalSpeed = 3;
+    [SerializeField] LevelSpawner spawner = null;
 
     public bool AllowInput = false;
     public bool Dead = false;
@@ -20,7 +21,6 @@ namespace shrimp.input
     }
 
     public InteractableItem CurrentInteractable = null;
-    Vector3 startingPosition = Vector3.zero;
 
     protected Animator playerAnimator = null;
     protected Rigidbody2D playerRigidBody = null;
@@ -50,7 +50,6 @@ namespace shrimp.input
       playerAnimator = GetComponent<Animator>();
       playerRigidBody = GetComponent<Rigidbody2D>();
       playerSprite = GetComponent<SpriteRenderer>();
-      startingPosition = transform.position;
     }
 
     void Update()
@@ -138,7 +137,7 @@ namespace shrimp.input
 
     public void ResetPosition()
     {
-      transform.position = startingPosition;
+      transform.position = spawner.CurrentLevel.GetComponent<PlayerStartPosition>().StartPosition;
     }
   }
 }
