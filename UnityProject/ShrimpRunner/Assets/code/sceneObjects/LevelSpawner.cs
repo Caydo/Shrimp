@@ -1,4 +1,4 @@
-﻿using PathologicalGames;
+using PathologicalGames;
 using shrimp.input;
 using shrimp.scenes;
 using UnityEngine;
@@ -32,8 +32,6 @@ namespace shrimp.sceneObjects
         {
           PoolManager.Pools[poolName].Despawn(levelToDespawn);
         }
-
-        spawnedLevels--;
       }
     }
 
@@ -44,7 +42,7 @@ namespace shrimp.sceneObjects
       var level = levelPrefabs[levelIndex].transform;
       var spawnPosition = new Vector3(spawnXPosition * spawnedLevels, transform.localPosition.y, transform.localPosition.z);
       var spawnedLevel = PoolManager.Pools[poolName].Spawn(level, spawnPosition, Quaternion.identity, transform);
-      setupLevel(spawnedLevel);
+      spawnedLevel.GetComponent<SetupLevelObject>().Setup(this, nextPlatformLevelSpawner, playerInput);
       spawnedLevels++;
     }
 
@@ -53,7 +51,7 @@ namespace shrimp.sceneObjects
       if(!inputSceneLoader.Leaving)
       {
         CurrentLevel = PoolManager.Pools[poolName].Spawn(levelToSpawn, transform);
-        setupLevel(CurrentLevel);
+        CurrentLevel.GetComponent<SetupLevelObject>().Setup(this, nextPlatformLevelSpawner, playerInput);
         spawnedLevels++;
         return CurrentLevel;
       }
@@ -73,25 +71,6 @@ namespace shrimp.sceneObjects
         PoolManager.Pools[poolName].DespawnAll();
         spawnedLevels = 0;
         SpawnLevel(CurrentLevel);
-      }
-    }
-
-    void setupLevel(Transform spawnedLevel)
-    {
-      if(isRunnerSpawner)
-      {
-        spawnedLevel.GetComponent<SpawnLevelOnTrigger>().Spawner = this;
-        spawnedLevel.GetComponentInChildren<DespawnOnBecameInvisible>().Setup(this, playerInput);
-      }
-      else
-      {
-        spawnedLevel.GetComponentInChildren<EnterNextLevelOnInteract>().Setup(nextPlatformLevelSpawner);
-      }
-
-      foreach(var interactableItem in spawnedLevel.GetComponentsInChildren<InteractableItem>())
-      {
-        interactableItem.Setup(playerInput, this);
-        interactableItem.ResetItem();
       }
     }
   }

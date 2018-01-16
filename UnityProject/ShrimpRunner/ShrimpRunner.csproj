@@ -108,6 +108,7 @@
     <Compile Include="Assets\code\sceneObjects\DisableOnBecameInvisible.cs" />
     <Compile Include="Assets\code\sceneObjects\InteractableItem.cs" />
     <Compile Include="Assets\code\sceneObjects\InteractableSprite.cs" />
+    <Compile Include="Assets\code\sceneObjects\SetupLevelObject.cs" />
     <Compile Include="Assets\code\sceneObjects\LevelSpawner.cs" />
     <Compile Include="Assets\code\sceneObjects\ChangeScoreOnTrigger.cs" />
     <Compile Include="Assets\code\sceneObjects\PlayerStartPosition.cs" />

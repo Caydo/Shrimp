@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace shrimp.platform
 {
@@ -30,14 +30,15 @@ namespace shrimp.platform
     float bottomSide;
     Vector2 center;
 
-    void Start()
+    // spawning/despawning means we'll potentially reuse this and if this moved somehow (e.g. it was reused by the infinite runner spawner) then we need to
+    // redo this math
+    void OnEnable()
     {
       var bounds = GetComponent<Collider2D>().bounds;
       var halfWidth = (bounds.size.x / 2);
       var halfHeight = (bounds.size.y / 2);
 
       center = bounds.center;
-
       leftSide = (center.x - halfWidth);
       rightSide = (center.x + halfWidth);
       topSide = (center.y + halfHeight);
@@ -47,7 +48,6 @@ namespace shrimp.platform
     public ContactSide GetContactSide(Vector2 contact)
     {
       ContactSide contactSide = ContactSide.Corner;
-
       if(contact.x > leftSide && contact.x < rightSide && contact.y >= topSide)
       {
         contactSide = ContactSide.Top;
